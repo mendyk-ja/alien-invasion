@@ -3,6 +3,8 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
+
 
 class AlienInvasion:
     """Main class intended for managing resources and the way of working of the game."""
@@ -15,6 +17,8 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien invasion")
 
+        self.ship = Ship(self)
+
     def run_game(self):
         """Starting main loop of the game"""
         while True:
@@ -25,6 +29,7 @@ class AlienInvasion:
 
             # Refreshing the screen during every loop iteration.
             self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
 
             # Displaying recently modified screen
             pygame.display.flip()
