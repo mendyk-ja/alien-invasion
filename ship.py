@@ -16,6 +16,14 @@ class Ship():
         # Every new spaceship show up on the bottom of the screen.
         self.rect.midbottom = self. screen_rect.midbottom
 
+        # Option indicating on spaceship moving.
+        self.moving_right = False
+
+    def update(self):
+        """Actualization of spaceship location based on option indicating on it's moving"""
+        if self.moving_right:
+            self.rect.x += 1
+
     def blitme(self):
         """Displaying spaceship in his actual position"""
         self.screen.blit(self.image, self.rect)
