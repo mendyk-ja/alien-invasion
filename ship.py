@@ -18,11 +18,14 @@ class Ship():
 
         # Option indicating on spaceship moving.
         self.moving_right = False
+        self.moving_left = False
 
     def update(self):
         """Actualization of spaceship location based on option indicating on it's moving"""
         if self.moving_right:
             self.rect.x += 1
+        if self.moving_left:
+            self.rect.x -= 1
 
     def blitme(self):
         """Displaying spaceship in his actual position"""
