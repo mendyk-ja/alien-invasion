@@ -1,12 +1,13 @@
 import pygame
 
 
-class Ship():
+class Ship:
     """Class intended for managing spaceship."""
     def __init__(self, ai_game):
         """Initialization of spaceship and his primary position"""
 
         self.screen = ai_game.screen
+        self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
 
         # Loading the spaceship image and and getting his position
@@ -14,18 +15,24 @@ class Ship():
         self.rect = self.image.get_rect()
 
         # Every new spaceship show up on the bottom of the screen.
-        self.rect.midbottom = self. screen_rect.midbottom
+        self.rect.midbottom = self.screen_rect.midbottom
+
+        # Spaceship position is stored as float.
+        self.x = float(self.rect.x)
 
         # Option indicating on spaceship moving.
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
-        """Actualization of spaceship location based on option indicating on it's moving"""
+        """Actualization of spaceship's x location, not it's quarter."""
         if self.moving_right:
-            self.rect.x += 1
+            self.x += self.settings.ship_speed
         if self.moving_left:
-            self.rect.x -= 1
+            self.x -= self.settings.ship_speed
+
+        # Actualization of object rect based on self.x value.
+        self.rect.x = self.x
 
     def blitme(self):
         """Displaying spaceship in his actual position"""
