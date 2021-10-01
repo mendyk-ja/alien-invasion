@@ -22,9 +22,12 @@ class Bullet(Sprite):
 
     def update(self):
         """Moving bullet on the screen"""
+        # Actualization of bullet location
+        self.y -= self.settings.bullet_speed
         # Location actualization of bullet square
         self.rect.y = self.y
 
     def draw_bullet(self):
         """ Displaying bullet on the screen"""
         pygame.draw.rect(self.screen, self.color, self.rect)
+
