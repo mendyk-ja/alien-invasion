@@ -69,9 +69,10 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
             # Resetting game statistic data.
-            self.settings.initialize_dynamic_settings()
+            # self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
 
             # Removing contents of  aliens and bullets lists.
             self.aliens.empty()
@@ -159,13 +160,18 @@ class AlienInvasion:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
-        self._check_bullet_allien_collision()
+        self._check_bullet_alien_collision()
 
-    def _check_bullet_allien_collision(self):
+    def _check_bullet_alien_collision(self):
         """Reaction to bullet and alien collision"""
         # Removing all bullets and aliens, which collide.
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
 
         if not self.aliens:
             # Removing existed bullets and creating a new fleet.
@@ -227,7 +233,7 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
 
         # Displaying information about scores
-        self.sb.show_score()   
+        self.sb.show_score()
 
         # Displaying the button only  when the game is disabled
         if not self.stats.game_active:
