@@ -37,9 +37,11 @@ class AlienInvasion:
         """Starting main loop of the game"""
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -149,21 +151,36 @@ class AlienInvasion:
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        # Searching for aliens, which are going to reach the bottom of the screen
+        self._check_aliens_bottom()
+
+    def _check_aliens_bottom(self):
+        """Checking if, any alien reached to the bottom of the screen"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # The same as in the case of hotting the spaceship
+                self._ship_hit()
+                break
+
     def _ship_hit(self):
         """ Reaction after an alien hits the spaceship"""
-        # decreasing value storage in ship_left
-        self.stats.ships_left -= 1
+        if self.stats.ships_left > 0:
+            # decreasing value storage in ship_left
+            self.stats.ships_left -= 1
 
-        # Removing contents from lists aliens and bullets
-        self.aliens.empty()
-        self.bullets.empty()
+            # Removing contents from lists aliens and bullets
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Creating a new fleet and center the spaceship
-        self._create_fleet()
-        self.ship.center_ship()
+            # Creating a new fleet and center the spaceship
+            self._create_fleet()
+            self.ship.center_ship()
 
-        # Pause
-        sleep(0.5)
+            # Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     def _update_screen(self):
         """Updating images on the screen and switching to new screen."""
