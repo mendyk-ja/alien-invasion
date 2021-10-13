@@ -9,6 +9,9 @@ class GameStats:
         # Starting game in  disabled mode
         self.game_active = False
 
+        # The best score shouldn't be erased.
+        self.high_score = 0
+
     def reset_stats(self):
         """Initialization of statistic data, which can change during the game"""
         self.ships_left = self.settings.ship_limit
