@@ -1,5 +1,5 @@
 # Alien Invasion - game
-> Simple game created with Python and PyGame library.
+> Application based on Django for making notes.
 
 <!-- > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
 
